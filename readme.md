@@ -35,13 +35,13 @@ columns in the metadata file (see below).
 
 The following columns need to be defined in the metadata file:
 
-- [Analysis_ID] A string that is used later to give output files and dirs a recognizable name.
-- [Datadir File] Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
-- [Sample] Sample name, used in plots for identification
-- [File] Tif filename for this sample, without the .tif extension. (.tif extensions are assumed though.)
-- [Condition] For each Sample, it is assumed there are two measurements, which are identified by "Condition". "Condition" should have one of two values, which you can define yourself.
-- [Condition_int] These two conditions should also be represented by integer numbers, ie 0 and 1, in this column.
-- [subdir] See "Datadir"
+- **Analysis_ID** A string that is used later to give output files and dirs a recognizable name.
+- **Datadir File** Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
+- **Sample** Sample name, used in plots for identification
+- **File** Tif filename for this sample, without the .tif extension. (.tif extensions are assumed though.)
+- **Condition** For each Sample, it is assumed there are two measurements, which are identified by "Condition". "Condition" should have one of two values, which you can define yourself.
+- **Condition_int** These two conditions should also be represented by integer numbers, ie 0 and 1, in this column.
+- **subdir** See "Datadir"
 
 Example:
 
