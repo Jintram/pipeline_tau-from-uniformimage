@@ -62,18 +62,7 @@ color_palette = [
 ########################################################################
 
 def initialize_analysis(path_sample_metadata):
-    '''
-    This functions simply loads the metadata table and creates an output table.
-    
-    Metadata should have the following columns:
-    Analysis_ID	    This can be any string and will be used to store output related to this analysis.
-    Datadir	        Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
-    File	        Filename of the image, without extension
-    Sample	        Sample name, used in plots for identification
-    Condition	    Condition of the sample, used to calculate differences between conditions, can be any string
-    Condition_int	Condition labels as integers (usually 0 and 1)
-    subdir          See "Datadir"
-    '''
+
     # First load the metadata table
     df_sample_metadata = pd.read_excel(path_sample_metadata)
     

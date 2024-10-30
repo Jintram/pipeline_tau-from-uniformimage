@@ -7,15 +7,10 @@
 # lib_pipeline_tauimages_getstats.py for more information.
 
 # ABOUT THE METADATA FILE
+# See readme.md
 
 # ASSUMPTIONS ON THE FILES
-
-# TO DO: edit this text
-# Now analyze a set of files defined by the metadata file
-# Within the metadata file, you can also set a unique idenfifier, which will be used 
-# to create a subdirectory where the output will be placed.
-# A metadata file can hold as many samples as you want, and by changing the "datadir"
-# column, you can analyze data from different directories.
+# See readme.md
 
 ########################################################################
 
