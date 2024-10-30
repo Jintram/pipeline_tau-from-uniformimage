@@ -123,6 +123,8 @@ if illustrate_for_beginner:
 # Now save the dataframe
 df_sample_data.to_excel(path_outputdir + 'SampleList_with_mean_arrival.xlsx')
 
+# To load, use:
+# df_sample_data = pd.read_excel(path_outputdir + 'SampleList_with_mean_arrival.xlsx')
 
 
 
