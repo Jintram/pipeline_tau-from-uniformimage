@@ -63,7 +63,7 @@ Set `LIBSCRIPT_DIR` to the directory you stored the files of this repository in.
 
 ### Run an analysis
 
-** To do: further expand this section **
+**To do: further expand this section**
 
 Continue with 
 
@@ -79,7 +79,7 @@ All data that is generated is stored in the `df_sample_data` file, which is also
 
 ### Customizing code
 
-** To do: further expand this section **
+**To do: further expand this section**
 
 The above example script `projects/example_project.py` will load code from the file `lib_pipeline_tauimages_getstats.py`.
 
