@@ -35,13 +35,13 @@ columns in the metadata file (see below).
 
 The following columns need to be defined in the metadata file:
 
-- **Analysis_ID** A string that is used later to give output files and dirs a recognizable name.
-- **Datadir File** Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
-- **Sample** Sample name, used in plots for identification
-- **File** Tif filename for this sample, without the .tif extension. (.tif extensions are assumed though.)
-- **Condition** For each Sample, it is assumed there are two measurements, which are identified by "Condition". "Condition" should have one of two values, which you can define yourself.
-- **Condition_int** These two conditions should also be represented by integer numbers, ie 0 and 1, in this column.
-- **subdir** See "Datadir"
+- **Analysis_ID:** A string that is used later to give output files and dirs a recognizable name.
+- **Datadir File:** Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
+- **Sample:** Sample name, used in plots for identification
+- **File:** Tif filename for this sample, without the .tif extension. (.tif extensions are assumed though.)
+- **Condition:** For each Sample, it is assumed there are two measurements, which are identified by "Condition". "Condition" should have one of two values, which you can define yourself.
+- **Condition_int:** These two conditions should also be represented by integer numbers, ie 0 and 1, in this column.
+- **subdir:** See "Datadir"
 
 Example:
 
@@ -54,25 +54,35 @@ Example:
 
 ### Install the script
 
+Clone this repository to your local machine, or download the files. 
+Then, take a look at the file
 
+```projects/example_project.py```
 
-TO DO: edit this text
-Now analyze a set of files defined by the metadata file
-Within the metadata file, you can also set a unique idenfifier, which will be used 
-to create a subdirectory where the output will be placed.
-A metadata file can hold as many samples as you want, and by changing the "datadir"
-column, you can analyze data from different directories.
+Set `LIBSCRIPT_DIR` to the directory you stored the files of this repository in.
 
+### Run an analysis
 
-'''
-This functions simply loads the metadata table and creates an output table.
+** To do: further expand this section **
 
-Metadata should have the following columns:
-Analysis_ID	    This can be any string and will be used to store output related to this analysis.
-Datadir	        Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
-File	        Filename of the image, without extension
-Sample	        Sample name, used in plots for identification
-Condition	    Condition of the sample, used to calculate differences between conditions, can be any string
-Condition_int	Condition labels as integers (usually 0 and 1)
-subdir          See "Datadir"
-'''
+Continue with 
+
+```projects/example_project.py```
+
+Change the parameter `path_sample_metadata` to a metadata file that you created yourself.
+
+Change the parameter `path_outputdir` to an output directory of your liking.
+
+Now run the code line by line.
+
+All data that is generated is stored in the `df_sample_data` file, which is also saved in the output directory (`path_outputdir`).
+
+### Customizing code
+
+** To do: further expand this section **
+
+The above example script `projects/example_project.py` will load code from the file `lib_pipeline_tauimages_getstats.py`.
+
+Once you have initialized the parameters `df_sample_metadata`, `df_sample_data`, you can also open the `lib_pipeline_tauimages_getstats.py` file,
+and run code within that file to see what is happening. You can also copy pieces of code from the `lib_pipeline_tauimages_getstats.py` file,
+and customize them as you want.
