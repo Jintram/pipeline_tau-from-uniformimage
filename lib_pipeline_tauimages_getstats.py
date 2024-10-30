@@ -20,7 +20,14 @@ if False:
     import lib_pipeline_tauimages_getstats as imgstats
 
 ########################################################################
+# Important script parameters
 
+CHANNEL_TAU = 1 # channel with mean arrival times
+CHANNEL_INT = 0 # channel with intensity values
+CONVERSION_FACTOR = 6553.6 # Conversion factor to convert the 16-bit image to nanoseconds
+
+# A note about CONVERSION_FACTOR
+# 
 # When exporting the image from LAS-X, the intensity values are stored in a 16-bit image, 
 # where the range is defined by the export settings. Ie 0 will be the minimum value
 # and 2^16-1 will corresponed to the maximum value. By convenention, we have been using
@@ -54,11 +61,6 @@ color_palette = [
 
 ########################################################################
 
-CHANNEL_TAU = 1 # channel with mean arrival times
-CHANNEL_INT = 0 # channel with intensity values
-
-########################################################################
-
 def initialize_analysis(path_sample_metadata):
     '''
     This functions simply loads the metadata table and creates an output table.
@@ -74,6 +76,7 @@ def initialize_analysis(path_sample_metadata):
     '''
     # First load the metadata table
     df_sample_metadata = pd.read_excel(path_sample_metadata)
+    
     # Create a copy of this table to also store output
     df_sample_data = df_sample_metadata.copy()
     
@@ -84,8 +87,6 @@ def initialize_analysis(path_sample_metadata):
 # Now simply loop over all these samples and calculate the mean value of the image
 
 def extract_means_and_medians(df_sample_data):
-    '''
-    '''
     
     # Determine relevant filepaths
     filepaths = df_sample_data['Datadir'] + '/' + df_sample_data['subdir'].values + '/' + df_sample_data['File'].values + '.tif'
@@ -105,8 +106,8 @@ def extract_means_and_medians(df_sample_data):
             my_img = skio.imread(filepath)
             
             # Calculate the mean and median arrival times
-            mean_values_tau[idx] = np.mean(my_img[CHANNEL_TAU,:,:]) / 6553.6 
-            median_values_tau[idx] = np.median(my_img[CHANNEL_TAU,:,:]) / 6553.6 
+            mean_values_tau[idx] = np.mean(my_img[CHANNEL_TAU,:,:]) / CONVERSION_FACTOR
+            median_values_tau[idx] = np.median(my_img[CHANNEL_TAU,:,:]) / CONVERSION_FACTOR
             
             # Calculate the mean and median intensity
             # (This assumes samples were taken under same conditions)        
@@ -143,20 +144,24 @@ def calculate_differences(df_sample_data, illustrate_for_beginner=False):
     df_sample_data['diff_arrival'] = df_sample_data.groupby('Sample')['median_arrival'].diff()
     df_sample_data['diff_intensity'] = df_sample_data.groupby('Sample')['median_intensity'].diff()
 
-    # This is perhaps a bit hard to understand, and it can also be done using much more basic commands
+    # The code above is perhaps a bit hard to understand, and it can also be done using much more basic commands
+    # The code below is not executed per default, but can be used for further customization etc by others if necessary
     if illustrate_for_beginner:
 
         # First get a list of all the samples
         list_of_samples = df_sample_data['Sample'].unique()
         df_sample_data['diff_arrival2'] = np.nan
         df_sample_data['diff_intensity2'] = np.nan
+        
         # Assuming Conditions_int holds either 0 or 1 to identify the two conditions
         for sample in list_of_samples:
+            
             # difference in arrival times
             value1 = df_sample_data.loc[(df_sample_data['Sample'] == sample) & (df_sample_data['Condition_int'] == 1), 'median_arrival'].values
             value0 = df_sample_data.loc[(df_sample_data['Sample'] == sample) & (df_sample_data['Condition_int'] == 0), 'median_arrival'].values
             value_difference = value1 - value0
             df_sample_data.loc[(df_sample_data['Sample'] == sample) & (df_sample_data['Condition_int'] == 1), 'diff_arrival2'] = value_difference
+            
             # difference in intensity
             value1 = df_sample_data.loc[(df_sample_data['Sample'] == sample) & (df_sample_data['Condition_int'] == 1), 'median_intensity'].values
             value0 = df_sample_data.loc[(df_sample_data['Sample'] == sample) & (df_sample_data['Condition_int'] == 0), 'median_intensity'].values
@@ -167,26 +172,27 @@ def calculate_differences(df_sample_data, illustrate_for_beginner=False):
     return df_sample_data
 
 def save_dataframe_to_excel(df_sample_data, path_outputdir):
-    '''
-    Save the dataframe to an excel file.
-    '''
     
     # Get the unique identifier for this analysis
-    analysis_ID = df_sample_data['Analysis_ID'][0]
+    analysis_ID = df_sample_data['Analysis_ID'][0]    
     
+    # define and create a subdirectory if it does not exist
     path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/'
-    
-    # create a subdirectory if it does not exist
     os.makedirs(path_outputdir_plussubdir, exist_ok=True)
 
+    # Save the dataframe as excel 
     df_sample_data.to_excel(path_outputdir_plussubdir + 'analysis_'+analysis_ID+'__df_sample_data.xlsx', index=False)
+    
+    return None
 
 def load_dataframe_from_excel(path_outputdir, analysis_ID):
     # Load the dataframe from an excel file.
     
+    # Again, get the correct path
     analysis_ID = df_sample_data['Analysis_ID'][0]
     path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/' 
     
+    # Read the file
     df_sample_data = pd.read_excel(path_outputdir_plussubdir + 'analysis_'+analysis_ID+'__df_sample_data.xlsx')
     
     return df_sample_data
@@ -229,6 +235,8 @@ def plot_differences_lines(df_sample_data, path_outputdir, mean_or_median='Media
     # save it:
     plt.savefig(path_outputdir_plussubdir + 'lineplot_'+y_value_toplot+'.pdf', dpi=300, bbox_inches='tight')
     plt.close(fig)
+    
+    return None
 
 
 def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival'):
@@ -280,6 +288,8 @@ def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_m
     # save it:
     plt.savefig(path_outputdir_plussubdir + 'lineplot_'+y_value_toplot+'_fancy.pdf', dpi=300, bbox_inches='tight')
     plt.close(fig)
+    
+    return None
 
 def scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir):
     
@@ -319,6 +329,8 @@ def scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir):
     # or save it:
     plt.savefig(path_outputdir_plussubdir + 'scatterplot_diff_intensity_diff_arrival.pdf', dpi=300, bbox_inches='tight')
     plt.close(fig)
+    
+    return None
 
 # The same can be done with seaborn, but seaborn showed some undesirably behavior with regard to the colorbar
 # def scatterplot_diff_intensity_diff_arrival_seaborn(df_sample_data, path_outputdir):
