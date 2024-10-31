@@ -57,9 +57,12 @@ df_sample_data = taustats.calculate_differences(df_sample_data)
 
 # Save the dataframe as excel file
 taustats.save_dataframe_to_excel(df_sample_data, path_outputdir)
-    # If you later just want to plot some data, you can load the dataframe from the excel file
-    # This requires you to provide analysis_ID, here '20241030_martijn' is given as example.
-    # analysis_ID = '20241030_martijn'; df_sample_data = load_dataframe_from_excel(path_outputdir, analysis_ID)
+
+
+# If you later just want to plot some data, you can load the dataframe from the excel file
+# This requires you to provide analysis_ID, here '20241030_martijn' is given as example.
+# analysis_ID = '20241030_martijn'; df_sample_data = taustats.load_dataframe_from_excel(path_outputdir, analysis_ID)
+
 
 # Now plot data
 taustats.plot_differences_lines(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='intensity')
@@ -71,6 +74,9 @@ taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean
 taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Mean', arrival_or_intensity='intensity')
 taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival')
 taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Mean', arrival_or_intensity='arrival')
+
+taustats.differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival')
+taustats.differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='intensity')
 
 taustats.scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir)
 

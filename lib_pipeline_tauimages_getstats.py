@@ -180,7 +180,6 @@ def load_dataframe_from_excel(path_outputdir, analysis_ID):
     # Load the dataframe from an excel file.
     
     # Again, get the correct path
-    analysis_ID = df_sample_data['Analysis_ID'][0]
     path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/' 
     
     # Read the file
@@ -198,7 +197,7 @@ def plot_differences_lines(df_sample_data, path_outputdir, mean_or_median='Media
         raise ValueError('arrival_or_intensity should be either "arrival" or "intensity"')
     if mean_or_median.lower() not in ['mean', 'median']:
         raise ValueError('mean_or_median should be either "Mean" or "Median"')
-    
+       
     # Define the output directory
     analysis_ID = df_sample_data['Analysis_ID'][0]
     path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/' 
@@ -231,6 +230,8 @@ def plot_differences_lines(df_sample_data, path_outputdir, mean_or_median='Media
 
 
 def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival'):
+    # For debugging or running by selecting:
+    # mean_or_median='Median'; arrival_or_intensity='arrival'
 
     # Check input
     if arrival_or_intensity not in ['arrival', 'intensity']:
@@ -241,7 +242,11 @@ def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_m
     # Define the output directory
     analysis_ID = df_sample_data['Analysis_ID'][0]
     path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/' 
-
+    
+    # Some information for cosmetics later
+    Condition0_str = df_sample_data[df_sample_data['Condition_int'] == 0]['Condition'].values[0]
+    Condition1_str = df_sample_data[df_sample_data['Condition_int'] == 1]['Condition'].values[0]
+    
     # mean_or_median='Median'
     # mean_or_median='Mean'
     y_value_toplot = mean_or_median.lower() + '_' + arrival_or_intensity
@@ -269,18 +274,66 @@ def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_m
                     #x=df_sample_data_subset['Condition_int']+.5, y=df_sample_data_subset[y_value_toplot])
     plt.tight_layout() # required for better display
     # Axes labels
-    plt.xlabel('Condition')
+    plt.xlabel('')
     # Add the correct y label
     if arrival_or_intensity == 'arrival':
         plt.ylabel(mean_or_median+' arrival time (ns)')
     else:
         plt.ylabel(mean_or_median+' intensity (a.u.)')
+    # Add custom tickmarks that replace "0" and "1" by respective condition names
+    _ = ax.set_xticks([0,1])
+    _ = ax.set_xticklabels([Condition0_str, Condition1_str])
     # plt.show()
     # save it:
     plt.savefig(path_outputdir_plussubdir + 'lineplot_'+y_value_toplot+'_fancy.pdf', dpi=300, bbox_inches='tight')
     plt.close(fig)
     
     return None
+
+def differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival'):
+    
+    # Check input
+    if arrival_or_intensity not in ['arrival', 'intensity']:
+        raise ValueError('arrival_or_intensity should be either "arrival" or "intensity"')
+    if mean_or_median.lower() not in ['mean', 'median']:
+        raise ValueError('mean_or_median should be either "Mean" or "Median"')
+
+    # Define the output directory
+    analysis_ID = df_sample_data['Analysis_ID'][0]
+    path_outputdir_plussubdir = path_outputdir + '/output_' + analysis_ID + '/' 
+    
+    # Some information for cosmetics later
+    Condition0_str = df_sample_data[df_sample_data['Condition_int'] == 0]['Condition'].values[0]
+    Condition1_str = df_sample_data[df_sample_data['Condition_int'] == 1]['Condition'].values[0]
+    
+    # mean_or_median='Median'
+    # mean_or_median='Mean'
+    y_value_toplot = mean_or_median.lower() + '_' + arrival_or_intensity
+    
+    # determine the favorite plot order
+    # order = df_sample_data.sort_values(by=y_value_toplot, ascending=False)['Sample'].values
+    # order the dataframe according to this order
+    y_value_tosortby = 'diff_' + arrival_or_intensity
+    df_sample_data_sorted = df_sample_data.sort_values(by=y_value_tosortby, ascending=False)
+    
+    fig, ax = plt.subplots(1,1,figsize=(10*cm_to_inch,10*cm_to_inch))
+    
+    sns.lineplot(df_sample_data_sorted, x='Sample', y=y_value_toplot, hue='Sample', ax=ax, markers=True, linewidth=2, estimator=None)
+        # estimator=None; see "vertical" at https://stackoverflow.com/questions/62667158/how-do-i-increase-the-line-thickness-for-sns-lineplot
+    # now add balls at the end points
+    sns.scatterplot(df_sample_data_sorted[df_sample_data_sorted['Condition_int']==1], x='Sample', y=y_value_toplot, hue='Sample', ax=ax, markers=True, s=100, legend=False)    
+    
+    # remove the legend
+    ax.get_legend().remove()
+    # rotate the x-axis labels 90 degrees 
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    # plt.show()
+    
+    # save it:
+    plt.savefig(path_outputdir_plussubdir + 'lineplotvertical_'+y_value_toplot+'.pdf', dpi=300, bbox_inches='tight')
+    plt.close(fig)
+
 
 def scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir):
     
