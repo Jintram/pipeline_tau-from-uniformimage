@@ -45,6 +45,9 @@ path_sample_metadata = '/Users/m.wehrens/Data_UVA/2024_10_Sebastian_cAMPING_scre
 # set the directory where to save output files, a subdirectory will be automatically created there, using the unique identifier given in the metadata file
 path_outputdir = '/Users/m.wehrens/Data_UVA/2024_10_Sebastian_cAMPING_screen/analysis_output'
 
+# Note that you can also go into the library file (lib_pipeline_tauimages_getstats.py) and 
+# select & run code from there, to see what it does.
+
 # Load the metadata and initialize output data frame
 df_sample_metadata, df_sample_data = taustats.initialize_analysis(path_sample_metadata)
 
@@ -75,10 +78,16 @@ taustats.scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir)
 # and then change the code to your liking.
 
 
-
 ########################################################################
 # Perform another analysis
 
 # Simply cut & paste the code above and change the metadata file and output directory
 # I would recommend making some notes in the code about what you did and why
 # You can also use separate files per data analysis.
+
+
+# Note that excel files can contain any combination of files, so you can combine different
+# samples. 
+
+# Note that you can also combine/collect output files, either by manipulating the dataframes
+# or by manipulating the excel files. 

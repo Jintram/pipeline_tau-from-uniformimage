@@ -35,7 +35,7 @@ columns in the metadata file (see below).
 
 The following columns need to be defined in the metadata file:
 
-- **Analysis_ID:** A string that is used later to give output files and dirs a recognizable name.
+- **Analysis_ID:** A string that is used later to give output files and dirs a recognizable name. Only the first row is used to read this value.
 - **Datadir File:** Directory with data, potentially with subdirectories, which can be defined per sample in the subdir column.
 - **Sample:** Sample name, used in plots for identification
 - **File:** Tif filename for this sample, without the .tif extension. (.tif extensions are assumed though.)
@@ -49,7 +49,7 @@ Example:
 | ----------- | ------- | ---- | ------ | --------- | ------------- | ------ |
 | <analysis_name> | /path/to/data | file_A11_0 | A11 | No reagent | 0 | no_reagent_sample |
 |                 | /path/to/data | file_A11_1 | A11 | With reagent | 1 | no_reagent_sample |
-| <analysis_name> | /path/to/data | file_A12_0 | A12 | No reagent | 0 | no_reagent_sample |
+|                 | /path/to/data | file_A12_0 | A12 | No reagent | 0 | no_reagent_sample |
 |                 | /path/to/data | file_A12_1 | A12 | With reagent | 1 | no_reagent_sample |
 
 ### Install the script
@@ -63,25 +63,21 @@ Set `LIBSCRIPT_DIR` to the directory you stored the files of this repository in.
 
 ### Run an analysis
 
-**To do: further expand this section**
-
-Continue with 
+Again, go to the script
 
 ```projects/example_project.py```
 
-Change the parameter `path_sample_metadata` to a metadata file that you created yourself.
+and change the parameter `path_sample_metadata` to a metadata file that you created yourself.
 
-Change the parameter `path_outputdir` to an output directory of your liking.
+Change the parameter `path_outputdir` to an output directory of your liking. Files will be stored automatically in the directory `<path_outputdir>/output_<analysis_name>`.
 
 Now run the code line by line.
 
-All data that is generated is stored in the `df_sample_data` file, which is also saved in the output directory (`path_outputdir`).
+All data that is generated is stored in the `df_sample_data` file, which is also saved in the output directory (`<path_outputdir>/output_<analysis_name>`).
 
 ### Customizing code
 
-**To do: further expand this section**
-
-The above example script `projects/example_project.py` will load code from the file `lib_pipeline_tauimages_getstats.py`.
+The script `projects/example_project.py` will load code from the file `lib_pipeline_tauimages_getstats.py`.
 
 Once you have initialized the parameters `df_sample_metadata`, `df_sample_data`, you can also open the `lib_pipeline_tauimages_getstats.py` file,
 and run code within that file to see what is happening. You can also copy pieces of code from the `lib_pipeline_tauimages_getstats.py` file,

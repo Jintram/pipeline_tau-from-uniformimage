@@ -89,6 +89,8 @@ def extract_means_and_medians(df_sample_data):
     median_values_int = np.empty(len(filepaths))
     # Loop over all files
     for idx, filepath in enumerate(filepaths):
+        
+        # I use try and except here in case some images are missing.
         try:
             
             # Load the image
