@@ -7,7 +7,7 @@ The goal of this script is to provide an easy way to convert a set of images to 
 
 ## Installation / dependencies
 
-This script requires the following libraries to be installed:
+This script requires the following libraries to be installed, next to a working version of python (I used Python 3.12.4):
 
 ```
 pandas
