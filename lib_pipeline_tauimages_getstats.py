@@ -328,6 +328,13 @@ def plot_differences_bars(df_sample_data, path_outputdir, mean_or_median='Median
     # rotate the x-axis labels 90 degrees 
     plt.xticks(rotation=90)
     plt.tight_layout()
+    
+    # Axes labels
+    if arrival_or_intensity == 'arrival':
+        plt.ylabel(mean_or_median+' arrival time (ns)')
+    else:
+        plt.ylabel(mean_or_median+' intensity (a.u.)')
+    plt.xlabel('')
     # plt.show()
     
     # save it:
@@ -360,7 +367,9 @@ def scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir):
     values_sample_name = df_sample_data_subset['Sample']
     ax.scatter(values_diff_intensity, values_diff_arrival, c=values_median_intensity, cmap='viridis')
     # add a colorbar
-    plt.colorbar(ax.collections[0], ax=ax)
+    _cbar = plt.colorbar(ax.collections[0], ax=ax)
+    # add a label to the colorbar
+    _cbar.set_label('Mean intensity (a.u.)')
     # add sample annotation using the value_.. variables
     texts = []
     for idx in range(len(values_diff_intensity)):
