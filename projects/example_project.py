@@ -75,8 +75,8 @@ taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean
 taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival')
 taustats.plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_median='Mean', arrival_or_intensity='arrival')
 
-taustats.differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival')
-taustats.differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='intensity')
+taustats.plot_differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival')
+taustats.plot_differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='intensity')
 
 taustats.scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir)
 

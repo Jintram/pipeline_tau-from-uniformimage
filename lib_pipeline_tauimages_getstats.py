@@ -290,7 +290,7 @@ def plot_differences_lines_fancylabels(df_sample_data, path_outputdir, mean_or_m
     
     return None
 
-def differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival'):
+def plot_differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', arrival_or_intensity='arrival'):
     
     # Check input
     if arrival_or_intensity not in ['arrival', 'intensity']:
@@ -333,6 +333,8 @@ def differences_bars(df_sample_data, path_outputdir, mean_or_median='Median', ar
     # save it:
     plt.savefig(path_outputdir_plussubdir + 'lineplotvertical_'+y_value_toplot+'.pdf', dpi=300, bbox_inches='tight')
     plt.close(fig)
+    
+    return None
 
 
 def scatterplot_diff_intensity_diff_arrival(df_sample_data, path_outputdir):
